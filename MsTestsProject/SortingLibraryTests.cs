@@ -1,4 +1,6 @@
 ﻿using SorterLibrary;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 /**
  * These test use MsTests
  *  //https://learn.microsoft.com/en-us/dotnet/api/microsoft.visualstudio.testtools.unittesting.assert?view=mstest-net-3.8
@@ -326,6 +328,107 @@ namespace MsTestsProject
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+		[TestMethod]
+		public void ExactIsomorphConversionHappyPath()
+		{
+			string input = "alphabet";
+			// "0 1 2 3 0 4 5 6"
+			int[] expected = { 0, 1, 2, 3, 0, 4, 5, 6 };
+			int[] output = Sorter<string>.ExactIsomorphConversion(input);
+
+			CollectionAssert.AreEqual(expected, output);
+		}
+
+		//Should return the same expected output as happy path
+		[TestMethod]
+		public void ExactIsomorphConversionProperCapitalization()
+		{
+			string input = "Alphabet";
+			// "0 1 2 3 0 4 5 6"
+			int[] expected = { 0, 1, 2, 3, 0, 4, 5, 6 };
+			int[] output = Sorter<string>.ExactIsomorphConversion(input);
+
+			CollectionAssert.AreEqual(expected, output);
+		}
+
+		[TestMethod]
+		public void LooseIsomorphConversionHappyPath()
+		{
+			string input = "alphabet";
+			// "1 1 1 1 1 1 2"
+			int[] expected = { 1, 1, 1, 1, 1, 1, 2 };
+			int[] output = Sorter<string>.LooseIsomorphConversion(input);
+
+			CollectionAssert.AreEqual(expected, output);
+		}
+
+		//Should return the same expected output as happy path
+		[TestMethod]
+		public void LooseIsomorphConversionProperCapitalization()
+		{
+			string input = "Alphabet";
+			// "1 1 1 1 1 1 2"
+			int[] expected = { 1, 1, 1, 1, 1, 1, 2 };
+			int[] output = Sorter<string>.LooseIsomorphConversion(input);
+
+			CollectionAssert.AreEqual(expected, output);
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void SortIsomorphsAlphabeticallyHappyPath()
+		{
+			string[] input = { "took", "seer", "seep", "meet", "look"};
+			string[] expected = { "look", "meet", "seep", "seer", "took" };
+
+			Sorter<string>.SortIsomorphsAlphabetically(input);
+
+			//Assert.AreEqual(input, expected);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void IsomorphicSortHappyPath()
+		{
+			string[] input = ["aaa", "fear", "mates", "gag", "egg", "add", "foo", "sap", "yay", "tot", "look", "meet", "took", "seer", "seep", "ate", "bar", "eat", "fit"];
+			string expected = "Loose Isomorphs:\n" +
+							  "1 1 1: ate bar eat fit sap\n" +
+							  "1 1 2: look meet seep seer took\n" +
+							  "1 2: add egg foo gag tot yay\n" +
+							  "Exact Isomorphs:\n" +
+							  "0 1 0: gag tot yay\n" +
+							  "0 1 1: add egg foo\n" +
+							  "0 1 1 2: look meet seep seer took\n" +
+							  "0 1 2: ate bar eat fit sap\n" +
+							  "Non-isomorphs: aaa fear mates";
+
+			string output = Sorter<string>.IsomorphicSort(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		[TestMethod]
+		public void IsomorphicSortSameIsomorph()
+		{
+			//Test if everything is sorted into their proper collections
+			string[] input = ["add", "ate", "bar", "eat", "egg", "fit", "foo", "gag", "sap"];
+			string expected = "Loose Isomorphs:\n" +
+							  "1 1 1: ate bar eat fit sap\n" +
+							  "1 2: add egg foo gag\n" +
+							  "Exact Isomorphs:\n" +
+							  "0 1 0: gag tot yay\n" +
+							  "0 1 1: add egg foo\n" +
+							  "0 1 2: ate bar eat fit sap\n" +
+							  "Non-isomorphs: ";
+
+			string output = Sorter<string>.IsomorphicSort(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
 		[TestMethod]
 		public void romanToIntHappypath()
 		{
