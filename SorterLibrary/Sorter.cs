@@ -1,7 +1,9 @@
 ﻿/*
  *https://learn.microsoft.com/en-us/dotnet/api/system.icomparable-1?view=net-8.0
  */
+using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
 
 namespace SorterLibrary
@@ -127,6 +129,9 @@ namespace SorterLibrary
 
 				int[] looseTemp = LooseIsomorphConversion(arr[i]);
                 int[] exactTemp = ExactIsomorphConversion(arr[i]);
+
+                //HOW DO I MAKE SURE THAT I CAN DO A SEQUENCE EQUAL WHEN LOOKING FOR A MATCHING KEY???
+
 
                 //if (exactIsomorphs.ContainsKey(exactTemp.SequenceEqual()))
                 if(exactIsomorphs.TryGetValue(exactTemp, out List<string> temp))
@@ -329,5 +334,71 @@ namespace SorterLibrary
         {
             Sorter<string>.InsertionSort(collection);
         }
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Finds the value in a sorted array by comparing what we are looking for with the middle element
+        // O(n^2) due to the implementation of Insertion Sort.
+        // However, presuming the user is giving already sorted collections, which they SHOULD, The Big O is usually n
+        // Excluding the sort, we have a Big O of log(n)
+		public static int BinarySort(int[] arr, int seek)
+        {
+			//Check if arr is null
+			if (arr == null)
+			{
+				return -1;
+			}
+
+            int end = arr.Length - 1;
+
+			//Check if array is empty
+			if (end == -1)
+			{
+				//Empty array
+				return -1;
+			}
+			else
+			{
+				//Ensures sorted array
+				Sorter<int>.InsertionSort(arr);
+			}
+
+			return BinarySort(arr, seek, 0, end);
+        }
+
+        //Recursive Method of BinarySort
+		public static int BinarySort(int[] arr, int seek, int start, int end)
+        {
+
+			//Ensure start is less than end and start is a non-negative value
+			if (start <= end && start >= 0)
+            {
+				//Correct
+
+                int middle = (end + start) / 2;
+                //If less, round up
+                if ((float)middle < (float)(end - start) / 2)
+                {
+                    middle++;
+                }
+
+                if (seek == arr[middle])
+                {
+                    return middle;
+                }
+                else if (seek < arr[middle]) // Seek is to the left of the middle
+                {
+                    return BinarySort(arr, seek, start, middle - 1);
+                }
+                else // Seek is to the right of the middle
+                {
+					return BinarySort(arr, seek, middle + 1, end);
+				}
+            }
+            else
+            {
+                //Impossible Chonology
+                return -1;
+            }
+	    }
 	}
 }

@@ -116,21 +116,31 @@ namespace MsTestsProject
 		#endregion
 
 		[TestMethod]
-        public void ExampleTestMethod()
-        {
-            //Assemble
-            //int[] testArray = { 5, 4, 3, 2, 1 };
-            int[] testArray = GenerateDescending(5);
-            //int[] expectedResult = { 1, 2, 3, 4, 5};
-            int[] expectedResult = GenerateAscending(5);
+		public void romanToIntHappypath()
+		{
+			string input = "XCII";
+			int expected = 92;
+			int result = romanToInt(input);
+			Assert.AreEqual(expected, result);
+		}
 
-            //Act
-            Sorter<int>.BubbleSort(testArray);
+		[TestMethod]
+		public void romanToIntEmptyString()
+		{
+			string input = "";
+			int expected = 0;
+			int result = romanToInt(input);
+			Assert.AreEqual(expected, result);
+		}
 
-            //Assert
-            CollectionAssert.AreEqual(expectedResult, testArray);
-
-        }
+		[TestMethod]
+		public void romanToIntIncorrectCharacter()
+		{
+			string input = "XCIIA";
+			int expected = -1;
+			int result = romanToInt(input);
+			Assert.AreEqual(expected, result);
+		}
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -429,31 +439,114 @@ namespace MsTestsProject
 		}
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
-		[TestMethod]
-		public void romanToIntHappypath()
-		{
-			string input = "XCII";
-			int expected = 92;
-			int result = romanToInt(input);
-			Assert.AreEqual(expected, result);
-		}
 
 		[TestMethod]
-		public void romanToIntEmptyString()
+		public void BinarySearchHappyPath()
 		{
-			string input = "";
-			int expected = 0;
-			int result = romanToInt(input);
-			Assert.AreEqual(expected, result);
+			int[] inputArray = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+			int inputFind = 20;
+			int expected = 1;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+
+			Assert.AreEqual(expected, actual);
 		}
 
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
 		[TestMethod]
-		public void romanToIntIncorrectCharacter()
+		public void BinarySearchEmptyOrNullCollection()
 		{
-			string input = "XCIIA";
 			int expected = -1;
-			int result = romanToInt(input);
-			Assert.AreEqual(expected, result);
+			int inputFind = 0;
+
+			//Null
+			int[] inputArray = null;
+			//Empty
+			int[] emptyArray = { };
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+			Assert.AreEqual(expected, actual);
+
+			actual = Sorter<int>.BinarySort(emptyArray, inputFind);
+			Assert.AreEqual(expected, actual);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void BinarySearchImpossibleChronology()
+		{
+			// Returns -1 if inputFind is not found
+			int[] inputArray = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+			int inputFind = 20;
+			int expected = -1;
+			int start = 10;
+			int end   =  5;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind, start, end);
+			Assert.AreEqual(expected, actual);
+
+			start = -5;
+			end   = 10;
+
+			actual = Sorter<int>.BinarySort(inputArray, inputFind, start, end);
+			Assert.AreEqual(expected, actual);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void BinarySearchUnsortedCollection()
+		{
+			//Implements a bubble sort to ensure the collection is sorted
+			int[] inputArray = { 90, 20, 50, 30, 40, 100, 10, 70, 60, 80 };
+			
+			int inputFind = 20;
+			int expected = 1;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void BinarySearchNotInArray()
+		{
+			// Returns -1 if inputFind is not found
+			int[] inputArray = { 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 };
+			int inputFind = 35;
+			int expected = -1;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		//Generated via ChatGPT
+		[TestMethod]
+		public void BinarySearchFirstElement()
+		{
+			int[] inputArray = { 10, 20, 30, 40, 50 };
+			int inputFind = 10;
+			int expected = 0;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+			Assert.AreEqual(expected, actual);
+		}
+
+		//Generated via ChatGPT
+		[TestMethod]
+		public void BinarySearchLastElement()
+		{
+			int[] inputArray = { 10, 20, 30, 40, 50 };
+			int inputFind = 50;
+			int expected = 4;
+
+			int actual = Sorter<int>.BinarySort(inputArray, inputFind);
+			Assert.AreEqual(expected, actual);
 		}
 
 	}
