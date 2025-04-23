@@ -131,9 +131,6 @@ namespace SorterLibrary
 				string looseTemp = LooseIsomorphConversion(arr[i]);
                 string exactTemp = ExactIsomorphConversion(arr[i]);
 
-                //HOW DO I MAKE SURE THAT I CAN DO A SEQUENCE EQUAL WHEN LOOKING FOR A MATCHING KEY???
-
-
                 //if (exactIsomorphs.ContainsKey(exactTemp.SequenceEqual()))
                 if(exactIsomorphs.TryGetValue(exactTemp, out List<string> temp))
                 {
@@ -184,30 +181,23 @@ namespace SorterLibrary
 				}
 			}
 
-            // Sort the groups of loose isomorphs alphabetically
-
-            //foreach(KeyValuePair<int[], List<string>> isomorphs in looseIsomorphs)
-            //{
-            //    isomorphs.Value = SortIsomorphsAlphabetically(isomorphs.Value.ToArray()).ToList<string>();
-            //}
-
-			// Sort the groups of exact isomorphs alphabetically
-
 			StringBuilder printThisYouFilthyCasual = new StringBuilder("Loose Isomorphs:\n");
 
             // Add every loose isomorph and affiliates to string
             foreach (KeyValuePair<string, List<string>> isomorphs in looseIsomorphs)
             {
-				printThisYouFilthyCasual.Append(isomorphs.Key + " ");
-				for (int i = 0; i < isomorphs.Value.Count; i++)
+				// Sort the groups of loose isomorphs alphabetically
+				string[] sortedValues = SortIsomorphsAlphabetically(isomorphs.Value.ToArray());
+				printThisYouFilthyCasual.Append(isomorphs.Key + ": ");
+				for (int i = 0; i < sortedValues.Count(); i++)
                 {
-                    if (i != isomorphs.Value.Count - 1)
+                    if (i != sortedValues.Count() - 1)
                     {
-                        printThisYouFilthyCasual.Append(isomorphs.Value[i] + " ");
+                        printThisYouFilthyCasual.Append(sortedValues[i] + " ");
                     }
                     else
                     {
-						printThisYouFilthyCasual.Append(isomorphs.Value[i] + "\n");
+						printThisYouFilthyCasual.Append(sortedValues[i] + "\n");
 					}
                 }
             }
@@ -216,17 +206,19 @@ namespace SorterLibrary
 			// Add every exact isomorph and affiliates to string
 			foreach (KeyValuePair<string, List<string>> isomorphs in exactIsomorphs)
 			{
-				printThisYouFilthyCasual.Append(isomorphs.Key + " ");
+				// Sort the groups of exact isomorphs alphabetically
+				string[] sortedValues = SortIsomorphsAlphabetically(isomorphs.Value.ToArray());
+				printThisYouFilthyCasual.Append(isomorphs.Key + ": ");
                 //Iterate through each key
 				for (int i = 0; i < isomorphs.Value.Count; i++)
 				{
-					if (i != isomorphs.Value.Count - 1)
+					if (i != sortedValues.Count() - 1)
 					{
-						printThisYouFilthyCasual.Append(isomorphs.Value[i] + " ");
+						printThisYouFilthyCasual.Append(sortedValues[i] + " ");
 					}
 					else
 					{
-						printThisYouFilthyCasual.Append(isomorphs.Value[i] + "\n");
+						printThisYouFilthyCasual.Append(sortedValues[i] + "\n");
 					}
 				}
 			}
@@ -246,7 +238,7 @@ namespace SorterLibrary
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// Input:  A string containing letters
 		// Output: A string where each unique character is replaced with a unique number
-		// Example: "alphabet" becomes "0 1 2 3 0 4 5 6" "01230456"
+		// Example: "alphabet" becomes "0 1 2 3 0 4 5 6"
 		public static string ExactIsomorphConversion(string s)
         {
             //Stores previously found characters and their numeric value
@@ -346,9 +338,10 @@ namespace SorterLibrary
 
         // Input: A collection of strings confirmed to have the same exact/loose isomorphic value
         // Output A sorted collection of strings organised alphabetically
-        public static void SortIsomorphsAlphabetically(string[] collection)
+        public static string[] SortIsomorphsAlphabetically(string[] collection)
         {
             Sorter<string>.InsertionSort(collection);
+            return collection;
         }
 		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
