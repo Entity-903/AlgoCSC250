@@ -4,6 +4,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace SorterLibrary
@@ -112,13 +113,13 @@ namespace SorterLibrary
 		//Converts every string passed in into an isomorph and organises the passed in strings based on their isomorphic value
         //Seperate lists will be made for loose, exact, and non-isomorphs
 
-        //TODO: Update isomorph generation methods to return int[]
+        //TODO: Update isomorph generation methods to return string
         public static string IsomorphicSort(string[] arr)
         {
             //KEY   - isomorphic value
             //VALUE - all strings that have the isomorphic value of KEY
-            Dictionary<int[], List<string>> exactIsomorphs = new Dictionary<int[], List<string>>();
-            Dictionary<int[], List<string>> looseIsomorphs = new Dictionary<int[], List<string>>();
+            Dictionary<string, List<string>> exactIsomorphs = new Dictionary<string, List<string>>();
+            Dictionary<string, List<string>> looseIsomorphs = new Dictionary<string, List<string>>();
 			//Convert every string into an exact/loose isomorph and store results into their proper dictionary
             for (int i = 0; i < arr.Length; i++)
             {
@@ -127,8 +128,8 @@ namespace SorterLibrary
 
 				// "add", "ate", "bar", "eat", "egg", "fit", "foo", "gag", "sap"
 
-				int[] looseTemp = LooseIsomorphConversion(arr[i]);
-                int[] exactTemp = ExactIsomorphConversion(arr[i]);
+				string looseTemp = LooseIsomorphConversion(arr[i]);
+                string exactTemp = ExactIsomorphConversion(arr[i]);
 
                 //HOW DO I MAKE SURE THAT I CAN DO A SEQUENCE EQUAL WHEN LOOKING FOR A MATCHING KEY???
 
@@ -164,7 +165,7 @@ namespace SorterLibrary
 			//Find the non-isomorphs
 			string[] nonIsomorphs = new string[looseIsomorphs.Count];
             int tracker = 0;
-            foreach (KeyValuePair<int[], List<string>> isomorphs in looseIsomorphs)
+            foreach (KeyValuePair<string, List<string>> isomorphs in looseIsomorphs)
             {
                 //Remove non-isomorphs from the loose list
                 if (isomorphs.Value.Count == 1)
@@ -175,7 +176,7 @@ namespace SorterLibrary
             }
 
             //Non-isomorphs can also exist in the exact collection, iterate through exact collection and remove any stragglers
-            foreach (KeyValuePair<int[], List<string>> isomorphs in exactIsomorphs)
+            foreach (KeyValuePair<string, List<string>> isomorphs in exactIsomorphs)
             {
 				if (isomorphs.Value.Count == 1)
 				{
@@ -187,7 +188,7 @@ namespace SorterLibrary
 
             //foreach(KeyValuePair<int[], List<string>> isomorphs in looseIsomorphs)
             //{
-                //isomorphs.Value = SortIsomorphsAlphabetically(isomorphs.Value.ToArray()).ToList<string>();
+            //    isomorphs.Value = SortIsomorphsAlphabetically(isomorphs.Value.ToArray()).ToList<string>();
             //}
 
 			// Sort the groups of exact isomorphs alphabetically
@@ -195,14 +196,14 @@ namespace SorterLibrary
 			StringBuilder printThisYouFilthyCasual = new StringBuilder("Loose Isomorphs:\n");
 
             // Add every loose isomorph and affiliates to string
-            foreach (KeyValuePair<int[], List<string>> isomorphs in looseIsomorphs)
+            foreach (KeyValuePair<string, List<string>> isomorphs in looseIsomorphs)
             {
 				printThisYouFilthyCasual.Append(isomorphs.Key + " ");
-				for (int i = 0; i < isomorphs.Key.Length; i++)
+				for (int i = 0; i < isomorphs.Value.Count; i++)
                 {
-                    if (i != isomorphs.Key.Length - 1)
+                    if (i != isomorphs.Value.Count - 1)
                     {
-                        printThisYouFilthyCasual.Append(isomorphs.Value[i] + ", ");
+                        printThisYouFilthyCasual.Append(isomorphs.Value[i] + " ");
                     }
                     else
                     {
@@ -213,14 +214,15 @@ namespace SorterLibrary
 
 			printThisYouFilthyCasual.Append("Exact Isomorphs:\n");
 			// Add every exact isomorph and affiliates to string
-			foreach (KeyValuePair<int[], List<string>> isomorphs in exactIsomorphs)
+			foreach (KeyValuePair<string, List<string>> isomorphs in exactIsomorphs)
 			{
 				printThisYouFilthyCasual.Append(isomorphs.Key + " ");
-				for (int i = 0; i < isomorphs.Key.Length; i++)
+                //Iterate through each key
+				for (int i = 0; i < isomorphs.Value.Count; i++)
 				{
-					if (i != isomorphs.Key.Length - 1)
+					if (i != isomorphs.Value.Count - 1)
 					{
-						printThisYouFilthyCasual.Append(isomorphs.Value[i] + ", ");
+						printThisYouFilthyCasual.Append(isomorphs.Value[i] + " ");
 					}
 					else
 					{
@@ -233,14 +235,10 @@ namespace SorterLibrary
 			// Add every non-isomorph to string
 			for (int i = 0; i < nonIsomorphs.Length; i++)
 			{
-				if (i != nonIsomorphs.Length - 1)
-				{
-					printThisYouFilthyCasual.Append(nonIsomorphs[i] + " ");
-				}
-				else
-				{
-					printThisYouFilthyCasual.Append(nonIsomorphs[i] + "\n");
-				}
+                if (nonIsomorphs[i] != null)
+                {
+                    printThisYouFilthyCasual.Append(nonIsomorphs[i] + " ");
+                }
 			}
 
 			return printThisYouFilthyCasual.ToString();
@@ -249,14 +247,14 @@ namespace SorterLibrary
 		// Input:  A string containing letters
 		// Output: A string where each unique character is replaced with a unique number
 		// Example: "alphabet" becomes "0 1 2 3 0 4 5 6" "01230456"
-		public static int[] ExactIsomorphConversion(string s)
+		public static string ExactIsomorphConversion(string s)
         {
             //Stores previously found characters and their numeric value
             Dictionary<char, int> characterReference = new Dictionary<char, int>();
             //Ensures unique values are distributed
             int tracker = 0;
 			//Stores the exact isomorphic value of the passed in string
-			int[] result = new int[s.Length];
+			StringBuilder result = new StringBuilder();
             for (int i = 0; i < s.Length; i++)
             {
                 //If we already found that character before, replace that character with its proper value
@@ -264,7 +262,7 @@ namespace SorterLibrary
                 {
                     //There is no need to check if i == 0 here
                     //If characterReference contains the character already, we have seen it before and therefore, "i" cannot be 0
-                    result[i] = characterReference[s.ToLower()[i]];
+                    result.Append(" " + characterReference[s.ToLower()[i]]);
                 }
                 else //Otherwise, assign that character a unique value and save it to the dictionary, then replace the character with its assigned value
                 {
@@ -272,21 +270,23 @@ namespace SorterLibrary
                     //Don't add a space in front of the first character of result
                     if (i == 0)
                     {
-                        result[i] = characterReference[s.ToLower()[i]];
+                        result.Append("" + characterReference[s.ToLower()[i]]);
+                        //result[i] = characterReference[s.ToLower()[i]];
 					}
                     else
                     {
-                        result[i] = characterReference[s.ToLower()[i]];
+						result.Append(" " + characterReference[s.ToLower()[i]]);
+						//result[i] = characterReference[s.ToLower()[i]];
                     }
                 }
             }
-            return result;
+            return result.ToString();
         }
 
 		// Input:  A string containing letters
 		// Output: A string comtaining the numeric representation of the frequency of unique characters. The resulting values are then sorted from least to greatest
         // Example: "alphabet" becomes "1 1 1 1 1 1 2"
-		public static int[] LooseIsomorphConversion(string s)
+		public static string LooseIsomorphConversion(string s)
 		{
 			//Stores previously found characters and how many times they were found
 			Dictionary<char, int> characterReference = new Dictionary<char, int>();
@@ -306,7 +306,7 @@ namespace SorterLibrary
 			}
 
 			//Stores the raw isomorphic value of the passed in string
-			int[] result = new int[characterReference.Count];
+			int[] rawResult = new int[characterReference.Count];
             int tracker = 0;
 
             //Ensures that every unique character is added only once
@@ -317,15 +317,31 @@ namespace SorterLibrary
                 //Value of 0 denotes an already found character and should skip that value
                 if (characterReference[s.ToLower()[i]] != 0)
                 {
-                    result[tracker++] = characterReference[s.ToLower()[i]];
+                    rawResult[tracker++] = characterReference[s.ToLower()[i]];
                     characterReference[s.ToLower()[i]] = 0;
                 }
             }
 
             //Sorts the contained values to provide proper representation of the loose isomorph
-			Sorter<int>.InsertionSort(result);
+			Sorter<int>.InsertionSort(rawResult);
 
-			return result;
+            //Store the loose isomorph as a string
+            StringBuilder result = new StringBuilder();
+
+            for (int i = 0; i < rawResult.Length; i++)
+            {
+                //Don't add a space in front of the first character
+                if (i == 0)
+                {
+                    result.Append("" + rawResult[i]);
+                }
+                else
+                {
+					result.Append(" " + rawResult[i]);
+				}
+            }
+
+			return result.ToString();
 		}
 
         // Input: A collection of strings confirmed to have the same exact/loose isomorphic value

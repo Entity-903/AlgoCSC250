@@ -343,10 +343,10 @@ namespace MsTestsProject
 		{
 			string input = "alphabet";
 			// "0 1 2 3 0 4 5 6"
-			int[] expected = { 0, 1, 2, 3, 0, 4, 5, 6 };
-			int[] output = Sorter<string>.ExactIsomorphConversion(input);
+			string expected = "0 1 2 3 0 4 5 6";
+			string output = Sorter<string>.ExactIsomorphConversion(input);
 
-			CollectionAssert.AreEqual(expected, output);
+			Assert.AreEqual(expected, output);
 		}
 
 		//Should return the same expected output as happy path
@@ -355,10 +355,10 @@ namespace MsTestsProject
 		{
 			string input = "Alphabet";
 			// "0 1 2 3 0 4 5 6"
-			int[] expected = { 0, 1, 2, 3, 0, 4, 5, 6 };
-			int[] output = Sorter<string>.ExactIsomorphConversion(input);
+			string expected = "0 1 2 3 0 4 5 6";
+			string output = Sorter<string>.ExactIsomorphConversion(input);
 
-			CollectionAssert.AreEqual(expected, output);
+			Assert.AreEqual(expected, output);
 		}
 
 		[TestMethod]
@@ -366,10 +366,10 @@ namespace MsTestsProject
 		{
 			string input = "alphabet";
 			// "1 1 1 1 1 1 2"
-			int[] expected = { 1, 1, 1, 1, 1, 1, 2 };
-			int[] output = Sorter<string>.LooseIsomorphConversion(input);
+			string expected = "1 1 1 1 1 1 2";
+			string output = Sorter<string>.LooseIsomorphConversion(input);
 
-			CollectionAssert.AreEqual(expected, output);
+			Assert.AreEqual(expected, output);
 		}
 
 		//Should return the same expected output as happy path
@@ -378,10 +378,10 @@ namespace MsTestsProject
 		{
 			string input = "Alphabet";
 			// "1 1 1 1 1 1 2"
-			int[] expected = { 1, 1, 1, 1, 1, 1, 2 };
-			int[] output = Sorter<string>.LooseIsomorphConversion(input);
+			string expected = "1 1 1 1 1 1 2";
+			string output = Sorter<string>.LooseIsomorphConversion(input);
 
-			CollectionAssert.AreEqual(expected, output);
+			Assert.AreEqual(expected, output);
 		}
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -399,20 +399,32 @@ namespace MsTestsProject
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
+			//"Loose Isomorphs:\n" +
+			//				  "1 1 1: ate bar eat fit sap\n" +
+			//				  "1 1 2: look meet seep seer took\n" +
+			//				  "1 2: add egg foo gag tot yay\n" +
+			//				  "Exact Isomorphs:\n" +
+			//				  "0 1 0: gag tot yay\n" +
+			//				  "0 1 1: add egg foo\n" +
+			//				  "0 1 1 2: look meet seep seer took\n" +
+			//				  "0 1 2: ate bar eat fit sap\n" +
+			//				  "Non-isomorphs: aaa fear mates"
+
+
 		[TestMethod]
 		public void IsomorphicSortHappyPath()
 		{
 			string[] input = ["aaa", "fear", "mates", "gag", "egg", "add", "foo", "sap", "yay", "tot", "look", "meet", "took", "seer", "seep", "ate", "bar", "eat", "fit"];
 			string expected = "Loose Isomorphs:\n" +
-							  "1 1 1: ate bar eat fit sap\n" +
-							  "1 1 2: look meet seep seer took\n" +
-							  "1 2: add egg foo gag tot yay\n" +
+							  "1 2 gag egg add foo yay tot\n" +
+							  "1 1 1 sap ate bar eat fit\n" +
+							  "1 1 2 look meet took seer seep\n" +
 							  "Exact Isomorphs:\n" +
-							  "0 1 0: gag tot yay\n" +
-							  "0 1 1: add egg foo\n" +
-							  "0 1 1 2: look meet seep seer took\n" +
-							  "0 1 2: ate bar eat fit sap\n" +
-							  "Non-isomorphs: aaa fear mates";
+							  "0 1 0 gag yay tot\n" +
+							  "0 1 1 egg add foo\n" +
+							  "0 1 2 sap ate bar eat fit\n" +
+							  "0 1 1 2 look meet took seer seep\n" +
+							  "Non-Isomorphs: aaa fear mates ";
 
 			string output = Sorter<string>.IsomorphicSort(input);
 
@@ -422,16 +434,25 @@ namespace MsTestsProject
 		[TestMethod]
 		public void IsomorphicSortSameIsomorph()
 		{
-			//Test if everything is sorted into their proper collections
+
+			//string expected = "Loose Isomorphs:\n" +
+			//	  "1 1 1: ate bar eat fit sap\n" +
+			//	  "1 2: add egg foo gag\n" +
+			//	  "Exact Isomorphs:\n" +
+			//	  "0 1 0: gag tot yay\n" +
+			//	  "0 1 1: add egg foo\n" +
+			//	  "0 1 2: ate bar eat fit sap\n" +
+			//	  "Non-isomorphs: ";
+
+			//Quick and simple test to ensure everything is sorted into their proper collections
 			string[] input = ["add", "ate", "bar", "eat", "egg", "fit", "foo", "gag", "sap"];
 			string expected = "Loose Isomorphs:\n" +
-							  "1 1 1: ate bar eat fit sap\n" +
-							  "1 2: add egg foo gag\n" +
+							  "1 2 add egg foo gag\n" +
+							  "1 1 1 ate bar eat fit sap\n" +
 							  "Exact Isomorphs:\n" +
-							  "0 1 0: gag tot yay\n" +
-							  "0 1 1: add egg foo\n" +
-							  "0 1 2: ate bar eat fit sap\n" +
-							  "Non-isomorphs: ";
+							  "0 1 1 add egg foo\n" +
+							  "0 1 2 ate bar eat fit sap\n" +
+							  "Non-Isomorphs: ";
 
 			string output = Sorter<string>.IsomorphicSort(input);
 
