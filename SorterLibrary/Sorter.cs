@@ -405,9 +405,182 @@ namespace SorterLibrary
             }
             else
             {
-                //Impossible Chonology
+                //Impossible Chronology
                 return -1;
             }
 	    }
+
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public static void MergeSort(T[] arr)
+        {
+            if (arr == null)
+            {
+                return;
+            }
+			// Divide the collection until we have groups of 1 element
+            // In the case of an odd number of elements, secondHalf will have one more element than firstHalf
+            int tracker = 0;
+			T[] firstHalf = new T[arr.Length / 2]; // 5 / 2 = 2.5 -> 2
+			T[] secondHalf = new T[arr.Length - firstHalf.Length]; // 5 - 2 = 3
+            // We divide the collection as many times as needed until we have collections that have a maximum size of 1
+			if (arr.Length > 1)
+            {
+                for (int i = 0; i < firstHalf.Length; i++)
+                {
+                    firstHalf[i] = arr[tracker++];
+                }
+                for (int i = 0; i < secondHalf.Length; i++)
+                {
+                    secondHalf[i] = arr[tracker++];
+                }
+
+                MergeSort(firstHalf);
+                MergeSort(secondHalf);
+            }
+            else
+            {
+                return;
+            }
+            // Sort these smaller collections, then recombine those smaller collections by comparing the first elements of each "unsorted" collection
+            //     This is how we merge these collections
+            int firstTracker  = 0;
+            int secondTracker = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                // If we already sorted through a half of the array, add the remaining elements from the other half
+                if (firstTracker > firstHalf.Length - 1)
+                {
+                    arr[i] = secondHalf[secondTracker++];
+                    continue;
+                }
+                if (secondTracker > secondHalf.Length - 1)
+                {
+                    arr[i] = firstHalf[firstTracker++];
+                    continue;
+                }
+                // Sort by comparing the first element of each half
+                if (firstHalf[firstTracker].CompareTo(secondHalf[secondTracker]) <= 0) // The <= should make this a stable sort
+                {
+                    arr[i] = firstHalf[firstTracker++];
+                    continue;
+                }
+                else
+                {
+                    arr[i] = secondHalf[secondTracker++];
+                    continue;
+                }
+            }
+        }
+
+        //Unit tests:
+        // QuickSortHappyPath
+        // QuickSortTwoElements
+        // QuickSortDuplicateElements
+        public static void QuickSort(T[] arr)
+        {
+            //Find the index of the pivot 
+            //  If the arr has either TWO or THREE elements, return; The array is sorted due to implementation of ChoosePivot()
+
+            //If an element on the left of the pivot is greater than the pivot, move the element to the right of the pivot
+            //If an element on the right of the pivot is less than the pivot, move the element to the left of the pivot
+
+            //When preforming our swaps, find a value greater than the pivot on the left, then look for a value less than the pivot on the right.
+            //This way, we can swap both values at once
+            //If only one element needs to be swapped, bubble the element until it is on the correct side of the pivot
+
+            //Once the pivot is in its proper place in the collection, call QuickSort again on each side of the pivot
+            //  This is repeated until every subcollection of 2-3 elements are confirmed to be sorted
+        }
+
+        //Takes in the array and returns the middle index.
+        //The first, middle, and last elements will be sorted before we return the pivot index
+        //Shouldn't need to return the index of the middle element, since we already find that to pass it in
+        public static int ChoosePivot(T[] arr)
+        {   
+            if (arr.Length == 2)
+            {
+                //Use this presuming if(ChoosePivot(arr) == -1) changes the values of arr accordingly
+                if (arr[0].CompareTo(arr[1]) > 0)
+                {
+                    T temp = arr[0];
+                    arr[0] = arr[1];
+                    arr[1] = temp;
+                }
+                return -1;
+            }
+
+            int first = 0;
+            int middle = arr.Length / 2;
+            int last = arr.Length - 1;
+
+			T smallestValue;
+            T pivotValue;
+            T largestValue;
+            
+			if (arr[first].CompareTo(arr[middle]) <= 0)
+            {
+                if (arr[middle].CompareTo(arr[last]) < 0)
+                {
+                    // 1 2 3
+                    smallestValue = arr[first];
+                    pivotValue    = arr[middle];
+                    largestValue  = arr[last];
+                }
+                else
+                {
+                    if (arr[first].CompareTo(arr[last]) < 0)
+                    {
+						// 1 3 2
+						smallestValue = arr[first];
+						pivotValue    = arr[last];
+						largestValue  = arr[middle];
+					}
+                    else
+                    {
+						// 2 3 1
+						smallestValue = arr[last];
+						pivotValue    = arr[first];
+						largestValue  = arr[middle];
+					}
+                }
+            }
+            else
+            {
+                if (arr[middle].CompareTo(arr[last]) > 0)
+                {
+					// 3 2 1
+					smallestValue = arr[last];
+					pivotValue    = arr[middle];
+					largestValue  = arr[first];
+				}
+                else
+                {
+                    if (arr[first].CompareTo(arr[last]) < 0)
+                    {
+						// 2 1 3
+						smallestValue = arr[middle];
+						pivotValue    = arr[first];
+						largestValue  = arr[last];
+
+					}
+                    else
+                    {
+						// 3 1 2
+						smallestValue = arr[middle];
+						pivotValue    = arr[last];
+						largestValue  = arr[first];
+					}
+                }
+            }
+
+            //Update arr with sorted elements
+            arr[first]  = smallestValue;
+            arr[middle] = pivotValue;
+            arr[last]   = largestValue;
+
+            //Return the index of the pivot (middle)
+            return middle;
+		}
 	}
 }

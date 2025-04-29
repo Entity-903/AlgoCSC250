@@ -8,39 +8,39 @@ using static System.Runtime.InteropServices.JavaScript.JSType;
  */
 
 namespace MsTestsProject
-{   
-    [TestClass]
-    public class SorterTests
-    {
-        #region Generation Code
-        private static readonly int Seed = 12271978;
+{
+	[TestClass]
+	public class SorterTests
+	{
+		#region Generation Code
+		private static readonly int Seed = 12271978;
 
-        public static int[] GenerateRandom(int size)
-        {
-            var rand = new Random(Seed);
-            return Enumerable.Range(0, size)
-                             .Select(_ => rand.Next(100001))
-                             .ToArray();
-        }
+		public static int[] GenerateRandom(int size)
+		{
+			var rand = new Random(Seed);
+			return Enumerable.Range(0, size)
+							 .Select(_ => rand.Next(100001))
+							 .ToArray();
+		}
 
-        public static int[] GenerateAscending(int size)
-        {
-            return GenerateRandom(size).OrderBy(x => x).ToArray();
-        }
+		public static int[] GenerateAscending(int size)
+		{
+			return GenerateRandom(size).OrderBy(x => x).ToArray();
+		}
 
-        public static int[] GenerateDescending(int size)
-        {
-            return GenerateRandom(size).OrderByDescending(x => x).ToArray();
-        }
+		public static int[] GenerateDescending(int size)
+		{
+			return GenerateRandom(size).OrderByDescending(x => x).ToArray();
+		}
 
-        public static Person[] GeneratePersonList(int size, PersonOrder order)
-        {
-            return PersonGenerator.Generate(size, Seed, order);
-        }
+		public static Person[] GeneratePersonList(int size, PersonOrder order)
+		{
+			return PersonGenerator.Generate(size, Seed, order);
+		}
 
 		public static int romanToInt(string s)
 		{
-			
+
 			int result = 0;
 			for (int i = 0; i < s.Length; i++)
 			{
@@ -147,8 +147,8 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BubbleSortHappyPath()
 		{
-			int[] input    = { 7, 2, 8, 3, 1, 12, 15 };
-			int[] expected = { 1, 2, 3, 7, 8, 12, 15};
+			int[] input = { 7, 2, 8, 3, 1, 12, 15 };
+			int[] expected = { 1, 2, 3, 7, 8, 12, 15 };
 
 			Sorter<int>.BubbleSort(input);
 
@@ -158,7 +158,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BubbleSortBestCase()
 		{
-			int[] input =    { 1, 2, 3, 7, 8, 12, 15 };
+			int[] input = { 1, 2, 3, 7, 8, 12, 15 };
 			int[] expected = { 1, 2, 3, 7, 8, 12, 15 };
 
 			Sorter<int>.BubbleSort(input);
@@ -169,7 +169,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BubbleSortWorseCase()
 		{
-			int[] input	   = { 15, 12, 8, 7, 3, 2, 1 };
+			int[] input = { 15, 12, 8, 7, 3, 2, 1 };
 			int[] expected = { 1, 2, 3, 7, 8, 12, 15 };
 
 			Sorter<int>.BubbleSort(input);
@@ -180,8 +180,8 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BubbleSortNegativeValues()
 		{
-			int[] input    = { -10,  3, 1, -2, 4 };
-			int[] expected = { -10, -2, 1,  3, 4 };
+			int[] input = { -10, 3, 1, -2, 4 };
+			int[] expected = { -10, -2, 1, 3, 4 };
 
 			Sorter<int>.BubbleSort(input);
 
@@ -191,7 +191,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BubbleSortDuplicateElements()
 		{
-			int[] input    = { 9, 7, 5, 5, 3, 2, 2, 1 };
+			int[] input = { 9, 7, 5, 5, 3, 2, 2, 1 };
 			int[] expected = { 1, 2, 2, 3, 5, 5, 7, 9 };
 
 			Sorter<int>.BubbleSort(input);
@@ -216,7 +216,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SelectionSortHappyPath()
 		{
-			int[] input    = { 5, 4, 3, 2, 1 };
+			int[] input = { 5, 4, 3, 2, 1 };
 			int[] expected = { 1, 2, 3, 4, 5 };
 
 			Sorter<int>.SelectionSort(input);
@@ -227,8 +227,8 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SelectionSortNegativeNumbers()
 		{
-			int[] input    = {  0, -1, -2, -3, -4, -5 };
-			int[] expected = { -5, -4, -3, -2, -1,  0 };
+			int[] input = { 0, -1, -2, -3, -4, -5 };
+			int[] expected = { -5, -4, -3, -2, -1, 0 };
 
 			Sorter<int>.SelectionSort(input);
 
@@ -238,7 +238,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SelectionSortEmptyArray()
 		{
-			int[] input    = { };
+			int[] input = { };
 			int[] expected = { };
 
 			Sorter<int>.SelectionSort(input);
@@ -249,7 +249,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SelectionSortBestCase()
 		{
-			int[] input    = { 1, 2, 3, 4, 5 };
+			int[] input = { 1, 2, 3, 4, 5 };
 			int[] expected = { 1, 2, 3, 4, 5 };
 
 			Sorter<int>.SelectionSort(input);
@@ -260,7 +260,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SelectionSortDuplicateNumbers()
 		{
-			int[] input    = { 5, 2, 5, 3, 1, 2, 4 };
+			int[] input = { 5, 2, 5, 3, 1, 2, 4 };
 			int[] expected = { 1, 2, 2, 3, 4, 5, 5 };
 
 			Sorter<int>.SelectionSort(input);
@@ -388,7 +388,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void SortIsomorphsAlphabeticallyHappyPath()
 		{
-			string[] input = { "took", "seer", "seep", "meet", "look"};
+			string[] input = { "took", "seer", "seep", "meet", "look" };
 			string[] expected = { "look", "meet", "seep", "seer", "took" };
 
 			Sorter<string>.SortIsomorphsAlphabetically(input);
@@ -399,16 +399,16 @@ namespace MsTestsProject
 
 		//////////////////////////////////////////////////////////////////////////////////////////////////////
 
-			// string expected = "Loose Isomorphs:\n" +
-			//					 "1 1 1: ate bar eat fit sap\n" +
-			//					 "1 1 2: look meet seep seer took\n" +
-			//					 "1 2: add egg foo gag tot yay\n" +
-			//					 "Exact Isomorphs:\n" +
-			//					 "0 1 0: gag tot yay\n" +
-			//					 "0 1 1: add egg foo\n" +
-			//					 "0 1 1 2: look meet seep seer took\n" +
-			//					 "0 1 2: ate bar eat fit sap\n" +
-			//					 "Non-isomorphs: aaa fear mates"
+		// string expected = "Loose Isomorphs:\n" +
+		//					 "1 1 1: ate bar eat fit sap\n" +
+		//					 "1 1 2: look meet seep seer took\n" +
+		//					 "1 2: add egg foo gag tot yay\n" +
+		//					 "Exact Isomorphs:\n" +
+		//					 "0 1 0: gag tot yay\n" +
+		//					 "0 1 1: add egg foo\n" +
+		//					 "0 1 1 2: look meet seep seer took\n" +
+		//					 "0 1 2: ate bar eat fit sap\n" +
+		//					 "Non-isomorphs: aaa fear mates"
 
 
 		[TestMethod]
@@ -503,13 +503,13 @@ namespace MsTestsProject
 			int inputFind = 20;
 			int expected = -1;
 			int start = 10;
-			int end   =  5;
+			int end = 5;
 
 			int actual = Sorter<int>.BinarySort(inputArray, inputFind, start, end);
 			Assert.AreEqual(expected, actual);
 
 			start = -5;
-			end   = 10;
+			end = 10;
 
 			actual = Sorter<int>.BinarySort(inputArray, inputFind, start, end);
 			Assert.AreEqual(expected, actual);
@@ -522,7 +522,7 @@ namespace MsTestsProject
 		{
 			//Implements a bubble sort to ensure the collection is sorted
 			int[] inputArray = { 90, 20, 50, 30, 40, 100, 10, 70, 60, 80 };
-			
+
 			int inputFind = 20;
 			int expected = 1;
 
@@ -570,5 +570,144 @@ namespace MsTestsProject
 			Assert.AreEqual(expected, actual);
 		}
 
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void MergeSortHappyPath()
+		{
+			int[] input    = { 8, 3, 6, 2, 7 };
+			int[] expected = { 2, 3, 6, 7, 8 };
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void MergeSortOneElement()
+		{
+			int[] input    = { 7 };
+			int[] expected = { 7 };
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void MergeSortWorstCase()
+		{
+			int[] input    = { 5, 4, 3, 2, 1 };
+			int[] expected = { 1, 2, 3, 4, 5 };
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void MergeSortEmptyOrNullCollection()
+		{
+			int[] input =    { };
+			int[] expected = { };
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+
+			input    = null;
+			expected = null;
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void MergeSortBestcase()
+		{
+			int[] input    = { 1, 2, 3, 4, 5 };
+			int[] expected = { 1, 2, 3, 4, 5 };
+
+			Sorter<int>.MergeSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void QuickSortHappyPath()
+		{
+			int[] input    = { 9, 2, 7, 4, 3, 1 };
+			int[] expected = { 1, 2, 3, 4, 7, 9 };
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void QuickSortTwoElements()
+		{
+			int[] input    = { 9, 2 };
+			int[] expected = { 2, 9 };
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void QuickSortDuplicateElements()
+		{
+			int[] input    = { 4, 6, 5, 9, 9, 5 };
+			int[] expected = { 4, 5, 5, 6, 9, 9 };
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void ChoosePivotHappyPath()
+		{
+			int[] input123    = { 1, 2, 3 };
+			int[] input132    = { 1, 3, 2 };
+			int[] input231    = { 2, 3, 1 };
+			int[] input321    = { 3, 2, 1 };
+			int[] input213    = { 2, 1, 3 };
+			int[] input312    = { 3, 1, 2 };
+			int[] expected    = { 1, 2, 3 };
+
+			Sorter<int>.ChoosePivot(input123);
+			CollectionAssert.AreEqual(input123, expected);
+
+			Sorter<int>.ChoosePivot(input132);
+			CollectionAssert.AreEqual(input132, expected);
+
+			Sorter<int>.ChoosePivot(input231);
+			CollectionAssert.AreEqual(input231, expected);
+
+			Sorter<int>.ChoosePivot(input321);
+			CollectionAssert.AreEqual(input321, expected);
+
+			Sorter<int>.ChoosePivot(input213);
+			CollectionAssert.AreEqual(input213, expected);
+
+			Sorter<int>.ChoosePivot(input312);
+			CollectionAssert.AreEqual(input312, expected);
+		}
+
+		[TestMethod]
+		public void ChoosePivotDuplicateValues()
+		{
+			int[] input100 = { 1, 0, 0 };
+			int[] input010 = { 0, 1, 0 };
+			int[] input001 = { 0, 0, 1 };
+			int[] expected = { 0, 0, 1 };
+
+			Sorter<int>.ChoosePivot(input100);
+			CollectionAssert.AreEqual(input100, expected);
+
+			Sorter<int>.ChoosePivot(input010);
+			CollectionAssert.AreEqual(input010, expected);
+
+			Sorter<int>.ChoosePivot(input001);
+			CollectionAssert.AreEqual(input001, expected);
+		}
 	}
 }
