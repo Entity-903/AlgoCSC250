@@ -651,10 +651,36 @@ namespace MsTestsProject
 		}
 
 		[TestMethod]
+		public void QuickSortThreeElements()
+		{
+			int[] input = { 4, 6, 5};
+			int[] expected = { 4, 5, 6};
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
 		public void QuickSortDuplicateElements()
 		{
 			int[] input    = { 4, 6, 5, 9, 9, 5 };
 			int[] expected = { 4, 5, 5, 6, 9, 9 };
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+		}
+
+		[TestMethod]
+		public void QuickSortEmptyOrNullCollection()
+		{
+			int[] input    = { };
+			int[] expected = { };
+
+			Sorter<int>.QuickSort(input);
+			CollectionAssert.AreEqual(input, expected);
+
+			input    = null;
+			expected = null;
 
 			Sorter<int>.QuickSort(input);
 			CollectionAssert.AreEqual(input, expected);

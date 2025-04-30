@@ -479,19 +479,188 @@ namespace SorterLibrary
         // QuickSortDuplicateElements
         public static void QuickSort(T[] arr)
         {
+            //Ensure Existence
+            if (arr == null || arr.Length == 0)
+            {
+                return;
+            }
+
             //Find the index of the pivot 
+            int pivot = ChoosePivot(arr);
             //  If the arr has either TWO or THREE elements, return; The array is sorted due to implementation of ChoosePivot()
+            if (pivot == -1)
+            {
+                return;
+            }
 
             //If an element on the left of the pivot is greater than the pivot, move the element to the right of the pivot
             //If an element on the right of the pivot is less than the pivot, move the element to the left of the pivot
+            T leftValue  = arr[pivot];
+            T rightValue = arr[pivot];
 
-            //When preforming our swaps, find a value greater than the pivot on the left, then look for a value less than the pivot on the right.
-            //This way, we can swap both values at once
-            //If only one element needs to be swapped, bubble the element until it is on the correct side of the pivot
+            // Due to the implementation of ChoosePivot(), We do not need to compare the furthest elements of the array
+            int i = 1;
+            int j = arr.Length - 2;
 
-            //Once the pivot is in its proper place in the collection, call QuickSort again on each side of the pivot
-            //  This is repeated until every subcollection of 2-3 elements are confirmed to be sorted
-        }
+            do
+            {
+			    //When preforming our swaps, find a value greater than the pivot on the left, then look for a value less than the pivot on the right.
+			    //This way, we can swap both values at once
+                for (; i < pivot; i++)
+                {
+                    // If we find a value greater than the pivot, save the element to leftValue;
+                    if (arr[i].CompareTo(arr[pivot]) > 0)
+                    {
+                        leftValue = arr[i];
+                        break;
+                    }
+                }
+
+                for (; j > pivot; j--)
+                {
+					// If we find a value less than the pivot, save the element to rightValue;
+					if (arr[j].CompareTo(arr[pivot]) < 0)
+					{
+						rightValue = arr[j];
+                        break;
+					}
+				}
+                // These comparisons ensure that our temp value holders and our positions in the array are up-to-date
+                if (arr[i].CompareTo(leftValue) == 0 && arr[j].CompareTo(rightValue) == 0)
+                {
+                    arr[j] = leftValue;
+                    arr[i] = rightValue;
+                }
+				else //Only one element needs to be swapped, bubble the element until it is on the correct side of the pivot
+				{
+					//leftValue = 3
+
+					// 3 2 1 4 5 6
+					// 0 1 2 3 4 5
+					// ^   ^
+					// x   p
+
+					//bubble up
+
+					// 2 2 1 4 5 6
+					// 0 1 2 3 4 5
+					//   ^ ^
+					//   x p
+
+					//bubble up
+
+					// 2 1 1 4 5 6
+					// 0 1 2 3 4 5
+					//   ^ ^
+					//   P x
+
+					//inject leftValue
+
+					// 2 1 3 4 5 6
+					// 0 1 2 3 4 5
+					//   ^ ^
+					//   P x
+
+					//happypath
+
+					//-----------------------------------
+
+                    //rightValue = 4
+
+					// 1 2 3 6 5 4
+					// 0 1 2 3 4 5
+					//       ^   ^
+					//       p   x
+
+					//bubble down
+
+					// 1 2 3 6 5 5
+					// 0 1 2 3 4 5
+					//       ^ ^
+					//       p x
+
+					//bubble down
+
+					// 1 2 3 6 6 5
+					// 0 1 2 3 4 5
+					//       ^ ^
+					//       x p
+
+					//inject rightValue
+
+					// 1 2 3 4 6 5
+					// 0 1 2 3 4 5
+					//       ^ ^
+					//       p x
+
+					//happypath
+
+                    //Never update 'i' here; It is imperitive to the do while loop
+					if (arr[i].CompareTo(leftValue) == 0)
+                    {
+                        pivot--;
+                        for (int x = i; x <= pivot + 1; x++)
+                        {
+                            arr[x] = arr[x + 1];
+                            if (x == pivot + 1)
+                            {
+                                arr[x] = leftValue;
+                            }
+                        }
+                    } else 
+                    if (arr[j].CompareTo(rightValue) == 0)
+                    {
+						pivot++;
+						for (int x = i; x >= pivot - 1; x--)
+						{
+							arr[x] = arr[x - 1];
+							if (x == pivot - 1)
+							{
+								arr[x] = rightValue;
+							}
+						}
+					}
+                } // If if statements in else return false, then neither is up-to-date and both i and j are equal to the pivot
+			} while (i != pivot && j != pivot);
+
+
+			//Once the pivot is in its proper place in the collection, call QuickSort again on each side of the pivot
+
+			// 3 2 1 5 9 8 7
+			// 0 1 2 3 4 5 6
+			//       ^
+
+			// 3 2 5 9 8 7
+			// 0 1 2 3 4 5
+			//     ^
+
+			// QuickSort left side
+			T[] arrLeft = new T[pivot];
+            for (int x = 0; x < pivot; x++)
+            {
+                arrLeft[x] = arr[x];
+            }
+            QuickSort(arrLeft);
+            // QuickSort right side
+            T[] arrRight;
+			if (arr.Length % 2 == 0)
+            {
+				// arr has an even number of elements; arrRight gets one more element than arrLeft
+				arrRight = new T[arrLeft.Length + 1];
+			}
+            else
+            {
+				// arr has an odd number of elements; arrRight gets same number of elements as arrLeft
+		        arrRight = new T[arrLeft.Length];
+			}
+			for (int x = 0; x < pivot; x++)
+			{
+				arrRight[x] = arr[x];
+			}
+			QuickSort(arrRight);
+
+			//  This is repeated recursively until every subcollection of 1-3 elements are confirmed to be sorted
+		}
 
         //Takes in the array and returns the middle index.
         //The first, middle, and last elements will be sorted before we return the pivot index
@@ -510,6 +679,7 @@ namespace SorterLibrary
                 return -1;
             }
 
+            // In the event of an even number of elements choose the left center element
             int first = 0;
             int middle = arr.Length / 2;
             int last = arr.Length - 1;
@@ -578,6 +748,12 @@ namespace SorterLibrary
             arr[first]  = smallestValue;
             arr[middle] = pivotValue;
             arr[last]   = largestValue;
+
+            // If the array only has three elements, ChoosePivot() already sorted them
+            if (arr.Length == 3)
+            {
+                return -1;
+            }
 
             //Return the index of the pivot (middle)
             return middle;
