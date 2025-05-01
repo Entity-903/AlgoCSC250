@@ -758,5 +758,112 @@ namespace SorterLibrary
             //Return the index of the pivot (middle)
             return middle;
 		}
+
+        static StringBuilder result = new StringBuilder();
+        static int solutionTracker = 0;
+
+        // Takes in a number greater than 0 and returns all the solutions for n queens
+        public static string nQueens(int n)
+        {
+            //Ensure a proper value is passed in
+            if (n <= 0)
+            {
+                return "n must be greater than 0!";
+            }
+            //Initialize the array (all values will be false by default)
+            bool[,] board = new bool[n, n];
+
+            Coronation(board, n, 0);
+
+            return result.ToString();
+        }
+
+        public static void Coronation(bool[,] board, int n, int row)
+        {
+            //Iterate through all possible values in the row, saving those that complete
+            for (int i = 0; i < n; i++)
+            {
+                if (CalculateLegality(board, row, i))
+                {
+                    board[row, i] = true;
+                    if (row + 1 == n)
+                    {
+                        //Save the current state of the board to the StringBuilder
+                        if (solutionTracker == 0)
+                        {
+							result.Append("Solution " + ++solutionTracker + ":\n");
+						}
+                        else
+                        {
+                            result.Append("\nSolution " + ++solutionTracker + ":\n");
+                        }
+                        for (int x = 0; x < n; x++) // row
+                        {
+                            for (int y = 0; y < n; y++) // column
+                            {
+                                // If at last element in the row
+                                if (y == n - 1)
+                                {
+                                    // If a queen was placed at [x, y]
+                                    if (board[x, y])
+                                    {
+										result.Append("Q\n");
+									}
+                                    else
+                                    {
+										result.Append("-\n");
+									}
+                                }
+                                else
+                                {
+									// If a queen was placed at [x, y]
+									if (board[x, y])
+									{
+										result.Append("Q ");
+									}
+									else
+									{
+										result.Append("- ");
+									}
+								}
+                            }
+                        }
+						board[row, i] = false;
+					}
+                    else
+                    {
+                        //Continue iterating
+						Coronation(board, n, row + 1);
+                        board[row, i] = false;
+					}
+                }
+            }
+        }
+
+        //Determines whether a queen can be placed at the passed in location of the 2D array
+        public static bool CalculateLegality(bool[,] board, int row, int column)
+        {
+            // Only the above rows need to be checked
+            for (int i = 1; i <= row; i++)
+            {
+                // Check column (|)
+                if (board[row - i, column])
+                {
+                    return false;
+                }
+				// Check back diagonal (\)
+				if (column - i >= 0 && board[row - i, column - i])
+				{
+					return false;
+				}
+				// Check forward diagonal (/)
+				if (column + i <= board.GetLength(0) - 1 && board[row - i, column + i])
+				{
+					return false;
+				}
+			}
+            // No queens found; This location is legal
+            return true;
+        }
 	}
 }

@@ -735,5 +735,65 @@ namespace MsTestsProject
 			Sorter<int>.ChoosePivot(input001);
 			CollectionAssert.AreEqual(input001, expected);
 		}
+
+		//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+		[TestMethod]
+		public void nQueensHappyPath()
+		{
+			int input = 6;
+			string expected = "Solution 1:\n" +
+							  "- Q - - - -\n" +
+							  "- - - Q - -\n" +
+							  "- - - - - Q\n" +
+							  "Q - - - - -\n" +
+							  "- - Q - - -\n" +
+							  "- - - - Q -\n" +
+							  "\nSolution 2:\n" +
+							  "- - Q - - -\n" +
+							  "- - - - - Q\n" +
+							  "- Q - - - -\n" +
+							  "- - - - Q -\n" +
+							  "Q - - - - -\n" +
+							  "- - - Q - -\n" +
+							  "\nSolution 3:\n" +
+							  "- - - Q - -\n" +
+							  "Q - - - - -\n" +
+							  "- - - - Q -\n" +
+							  "- Q - - - -\n" +
+							  "- - - - - Q\n" +
+							  "- - Q - - -\n" +
+							  "\nSolution 4:\n" +
+							  "- - - - Q -\n" +
+							  "- - Q - - -\n" +
+							  "Q - - - - -\n" +
+							  "- - - - - Q\n" +
+							  "- - - Q - -\n" +
+							  "- Q - - - -\n";
+
+			string output = Sorter<int>.nQueens(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		[TestMethod]
+		public void nQueens4()
+		{
+			int input = 4;
+			string expected = "Solution 1:\n" +
+							  "- Q - -\n" +
+							  "- - - Q\n" +
+							  "Q - - -\n" +
+							  "- - Q -\n" +
+							  "\nSolution 2:\n" +
+							  "- - Q -\n" +
+							  "Q - - -\n" +
+							  "- - - Q\n" +
+							  "- Q - -\n";
+
+			string output = Sorter<int>.nQueens(input);
+
+			Assert.AreEqual(expected, output);
+		}
 	}
 }
