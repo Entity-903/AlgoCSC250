@@ -1,4 +1,5 @@
-﻿using SorterLibrary;
+﻿using System.Text;
+using SorterLibrary;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 /**
@@ -777,23 +778,119 @@ namespace MsTestsProject
 		}
 
 		[TestMethod]
-		public void nQueens4()
+		public void nQueensNegativeInput()
 		{
-			int input = 4;
-			string expected = "Solution 1:\n" +
-							  "- Q - -\n" +
-							  "- - - Q\n" +
-							  "Q - - -\n" +
-							  "- - Q -\n" +
-							  "\nSolution 2:\n" +
-							  "- - Q -\n" +
-							  "Q - - -\n" +
-							  "- - - Q\n" +
-							  "- Q - -\n";
+			int input = -4;
+			string expected = "n must be greater than 0!";
 
 			string output = Sorter<int>.nQueens(input);
 
 			Assert.AreEqual(expected, output);
 		}
+
+		[TestMethod]
+		public void nQueens3()
+		{
+			int input = 3;
+			string expected = "No solutions exist for n = 3!";
+
+			string output = Sorter<int>.nQueens(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		// Ensures the correct number of solutions are found for higher values of n
+		// Takes about 2 minutes to run on my machine
+
+		[TestMethod]
+		public void nQueens15()
+		{
+			int input = 15;
+			int expected = 2279184;
+
+			int output = Sorter<int>.nQueensSolutionCount(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		// Results of nQueensHappyPath should agree with this test
+
+		[TestMethod]
+		public void nQueensSolutionCountHappyPath()
+		{
+			int input = 6;
+			int expected = 4;
+
+			int output = Sorter<int>.nQueensSolutionCount(input);
+
+			Assert.AreEqual(expected, output);
+		}
+
+		// 
+
+		[TestMethod]
+		public void CoronationSavesCompletedSolution()
+		{
+			//					  "\nSolution 2:\n" +
+			//					  "- - Q -\n" +
+			//					  "Q - - -\n" +
+			//					  "- - - Q\n" +
+			//					  "- Q - -\n";
+
+			bool[,] inputBoard = { { false, false, true , false},
+								   { true , false, false, false},
+								   { false, false, false, true },
+								   { false, false, false, false}
+			};
+			int inputRow = 3;
+
+			StringBuilder inputResult = new StringBuilder();
+			int inputTracker = 0;
+
+			string expected = "Solution 1:\n" +
+							  "- - Q -\n" +
+							  "Q - - -\n" +
+							  "- - - Q\n" +
+							  "- Q - -\n";
+
+			Sorter<int>.Coronation(inputBoard, inputBoard.GetLength(0), inputRow, ref inputResult, ref inputTracker);
+
+			string actual = inputResult.ToString();
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void CalculateLegalityHappyPath()
+		{
+			bool[,] inputBoard = { { false, false, true, false },
+								   { true , false, false, false },
+								   { false, false, false, true },
+								   { false, false, false, false },
+			};
+			int inputRow = 3;
+			int inputColumn = 2;
+			bool expected = false;
+
+			// Checks forward diagonal
+			bool output = Sorter<int>.CalculateLegality(inputBoard, inputRow, inputColumn);
+			Assert.AreEqual(expected, output);
+
+			inputBoard[2, 3] = false;
+			// Checks backward diagonal
+			output = Sorter<int>.CalculateLegality(inputBoard, inputRow, inputColumn);
+			Assert.AreEqual(expected, output);
+
+			inputBoard[1, 0] = false;
+			// Checks current column
+			output = Sorter<int>.CalculateLegality(inputBoard, inputRow, inputColumn);
+			Assert.AreEqual(expected, output);
+
+			inputBoard[0, 2] = false;
+			// Passes when conditions are met
+			expected = true;
+			output = Sorter<int>.CalculateLegality(inputBoard, inputRow, inputColumn);
+			Assert.AreEqual(expected, output);
+		}
+
 	}
 }

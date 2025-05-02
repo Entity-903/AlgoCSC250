@@ -759,26 +759,59 @@ namespace SorterLibrary
             return middle;
 		}
 
-        static StringBuilder result = new StringBuilder();
-        static int solutionTracker = 0;
+		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        // Takes in a number greater than 0 and returns all the solutions for n queens
-        public static string nQueens(int n)
+		// Takes in a number greater than 0 and returns all the solutions for n queens
+        // Let n equal the number of queens
+        // A chess board with the dimensions of [n, n] is present
+        // How many solutions allow every queen to be place on the board without being in danger of being captured by another queen?
+        // BigO(nLog(n)) due to the for loop and recursive function call in said for loop in Coronation()
+		public static string nQueens(int n)
         {
+
+			StringBuilder result = new StringBuilder();
+			int solutionTracker = 0;
             //Ensure a proper value is passed in
             if (n <= 0)
             {
                 return "n must be greater than 0!";
             }
+            if (n <= 3)
+            {
+                return "No solutions exist for n = " + n + "!";
+            }
             //Initialize the array (all values will be false by default)
             bool[,] board = new bool[n, n];
 
-            Coronation(board, n, 0);
+            Coronation(board, n, 0, ref result, ref solutionTracker);
 
             return result.ToString();
         }
 
-        public static void Coronation(bool[,] board, int n, int row)
+
+        // Exists to return the number of solution for n
+		public static int nQueensSolutionCount(int n)
+		{
+			StringBuilder result = new StringBuilder();
+			int solutionTracker = 0;
+			//Ensure a proper value is passed in
+			if (n <= 0)
+			{
+				return -1;
+			}
+			if (n <= 3)
+			{
+				return 0;
+			}
+			//Initialize the array (all values will be false by default)
+			bool[,] board = new bool[n, n];
+
+			Coronation(board, n, 0, ref result, ref solutionTracker);
+
+			return solutionTracker;
+		}
+
+		public static void Coronation(bool[,] board, int n, int row, ref StringBuilder result, ref int solutionTracker)
         {
             //Iterate through all possible values in the row, saving those that complete
             for (int i = 0; i < n; i++)
@@ -833,7 +866,7 @@ namespace SorterLibrary
                     else
                     {
                         //Continue iterating
-						Coronation(board, n, row + 1);
+						Coronation(board, n, row + 1, ref result, ref solutionTracker);
                         board[row, i] = false;
 					}
                 }
