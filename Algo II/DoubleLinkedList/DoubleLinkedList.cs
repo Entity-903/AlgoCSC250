@@ -4,27 +4,28 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Algo_II.SingleLinkedList
+namespace Algo_II.DoubleLinkedList
 {
-	public class SingleLinkedList<T>
+	public class DoubleLinkedList<T>
 	{
 		public Node<T>? HeadNode { get; set; }
+		public Node<T>? TailNode { get; set; }
 		public int Count { get; set; } = 0;
 
 		// Default
-		public SingleLinkedList()
+		public DoubleLinkedList()
 		{
 
 		}
 
 		// Initializes a value as a node
-		public SingleLinkedList(T value)
+		public DoubleLinkedList(T value)
 		{
 			Add(value);
 		}
 
 		// Initializes an array of values as nodes
-		public SingleLinkedList(T[] values)
+		public DoubleLinkedList(T[] values)
 		{
 			for (int i = 0; i < values.Count(); i++)
 			{
@@ -48,7 +49,9 @@ namespace Algo_II.SingleLinkedList
 				{
 					currentTail = currentTail.Next;
 				}
-				// Have the old node point to the new node
+				// Have the new tail point to the old tail
+				newNode.Previous = currentTail;
+				// Have the old tail point to the new tail
 				currentTail.Next = newNode;
 			}
 			else
@@ -56,6 +59,7 @@ namespace Algo_II.SingleLinkedList
 				// No nodes in list, newNode is the first node
 				HeadNode = newNode;
 			}
+			TailNode = newNode;
 			Count++;
 		}
 
@@ -76,8 +80,10 @@ namespace Algo_II.SingleLinkedList
 				{
 					updateThis = updateThis.Next;
 				}
-				// Create new node with proper Next value
-				Node<T> newNode = new Node<T>(val, updateThis.Next);
+				// Create new node with proper Next.Previous values
+				Node<T> newNode = new Node<T>(val, updateThis.Next, updateThis);
+				// Update Previous value to point to new node
+				updateThis.Next.Previous = newNode;
 				// updateThis to point at the new node
 				updateThis.Next = newNode;
 
@@ -85,7 +91,7 @@ namespace Algo_II.SingleLinkedList
 			}
 			else
 			{
-				throw new IndexOutOfRangeException("Index is outside he range of nodes!");
+				throw new IndexOutOfRangeException("Index is outside the range of nodes!");
 			}
 		}
 
@@ -99,10 +105,26 @@ namespace Algo_II.SingleLinkedList
 		{
 			if (index >= 0 && index < Count)
 			{
-				Node<T> retriever = HeadNode;
-				for (int i = 0; i < index; i++)
+				// 1 2 3 4 5
+				//       *
+				// 1 2 3 4 5 6
+				//       *
+				Node<T> retriever;
+				if (index > (Count / 2 + 0.5))
 				{
-					retriever = retriever.Next;
+					retriever = TailNode;
+					for (int i = Count; i > index; i--)
+					{
+						retriever = retriever.Previous;
+					}
+				}
+				else
+				{
+					retriever = HeadNode;
+					for (int i = 0; i < index; i++)
+					{
+						retriever = retriever.Next;
+					}
 				}
 				return retriever.Data;
 			}
@@ -124,6 +146,7 @@ namespace Algo_II.SingleLinkedList
 				Node<T> oldHead = HeadNode;
 				// Update HeadNode
 				HeadNode = oldHead.Next;
+				HeadNode.Previous = null;
 				// Disconnect old head
 				oldHead.Next = null;
 
@@ -162,7 +185,9 @@ namespace Algo_II.SingleLinkedList
 				Node<T> killThisMan = target.Next;
 
 				target.Next = target.Next.Next;
-				killThisMan.Next = null;
+				target.Next.Previous = target;
+				killThisMan.Next	 = null;
+				killThisMan.Previous = null;
 
 				Count--;
 				return killThisMan.Data;
@@ -179,13 +204,10 @@ namespace Algo_II.SingleLinkedList
 		{
 			if (Count > 0)
 			{
-				Node<T> newTail = HeadNode;
-				for (int i = 0; i < Count - 2; i++)
-				{
-					newTail = newTail.Next;
-				}
-
+				Node<T> newTail = TailNode.Previous;
+				TailNode = newTail;
 				Node<T> deadTail = newTail.Next;
+				newTail.Next.Previous = null;
 				newTail.Next = null;
 
 				Count--;
@@ -227,6 +249,7 @@ namespace Algo_II.SingleLinkedList
 		public void Clear()
 		{
 			HeadNode = null;
+			TailNode = null;
 			Count = 0;
 		}
 
