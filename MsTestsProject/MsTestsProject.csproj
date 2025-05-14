@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Algo II\Algo II.csproj" />
     <ProjectReference Include="..\SorterLibrary\SorterLibrary.csproj" />
   </ItemGroup>
 

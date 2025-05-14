@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeWars", "CodeWars\CodeWa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SorterLibrary", "SorterLibrary\SorterLibrary.csproj", "{D4A83991-C8C6-4D3E-80DC-84B58D245D91}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algo II", "Algo II\Algo II.csproj", "{B26009F7-35D4-4DF5-8746-C83F47EA765B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{D4A83991-C8C6-4D3E-80DC-84B58D245D91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4A83991-C8C6-4D3E-80DC-84B58D245D91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4A83991-C8C6-4D3E-80DC-84B58D245D91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B26009F7-35D4-4DF5-8746-C83F47EA765B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B26009F7-35D4-4DF5-8746-C83F47EA765B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B26009F7-35D4-4DF5-8746-C83F47EA765B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B26009F7-35D4-4DF5-8746-C83F47EA765B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
