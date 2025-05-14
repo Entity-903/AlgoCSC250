@@ -113,20 +113,27 @@ namespace Algo_II.SingleLinkedList
 		}
 
 		/// <summary>
-		/// Removes the new first value in the list
+		/// Removes the first value in the list
 		/// </summary>
 		/// <returns> the removed first value in the list</returns>
-		public T Remove()
+		public T? Remove()
 		{
-			// Remember old node
-			Node<T> oldHead = HeadNode;
-			// Update HeadNode
-			HeadNode = oldHead.Next;
-			// Disconnect old head
-			oldHead.Next = null;
+			if (Count > 0)
+			{
+				// Remember old node
+				Node<T> oldHead = HeadNode;
+				// Update HeadNode
+				HeadNode = oldHead.Next;
+				// Disconnect old head
+				oldHead.Next = null;
 
-			Count--;
-			return oldHead.Data;
+				Count--;
+				return oldHead.Data;
+			}
+			else
+			{
+				return default(T);
+			}
 		}
 
 		// Removes and returns the value at the given index
@@ -168,20 +175,27 @@ namespace Algo_II.SingleLinkedList
 		}
 
 		// Removes and returns the last value in the list
-		public T RemoveLast()
+		public T? RemoveLast()
 		{
-			Node<T> newTail = HeadNode;
-			for (int i = 0; i < Count - 2; i++)
+			if (Count > 0)
 			{
-				newTail = newTail.Next;
+				Node<T> newTail = HeadNode;
+				for (int i = 0; i < Count - 2; i++)
+				{
+					newTail = newTail.Next;
+				}
+
+				Node<T> deadTail = newTail.Next;
+				newTail.Next = null;
+
+				Count--;
+
+				return deadTail.Data;
 			}
-
-			Node<T> deadTail = newTail.Next;
-			newTail.Next = null;
-
-			Count--;
-
-			return deadTail.Data;
+			else
+			{
+				return default(T);
+			}
 		}
 		
 		// Creates and returns a string representation of all values in the list
@@ -234,6 +248,7 @@ namespace Algo_II.SingleLinkedList
 				{
 					return i;
 				}
+				tracker = tracker.Next;
 			}
 			return -1;
 		}
