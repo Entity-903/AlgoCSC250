@@ -7,8 +7,6 @@ using Algo_II.SingleLinkedList;
 
 namespace Algo_II.Queue
 {
-	// Have Queue add to the end of the collection, while Stack adds to the beginning of the collection
-	// Stack and Queue returns the HeadNode
 	public class Queue<T>
 	{
 		// Enqueue() Purpose
@@ -75,7 +73,14 @@ namespace Algo_II.Queue
 		/// <returns></returns>
 		public T? Dequeue()
 		{
-			return sll.Remove();
+			if(sll != null)
+			{
+				return sll.Remove();
+			}
+			else
+			{ 
+				return default(T); 
+			}
 		}
 
 		/// <summary>
@@ -84,7 +89,14 @@ namespace Algo_II.Queue
 		/// <param name="data"></param>
 		public void Enqueue(T data)
 		{
-			sll.Add(data);
+			if (sll != null)
+			{
+				sll.Add(data);
+			}
+			else
+			{
+				sll = new SingleLinkedList<T>(data);
+			}
 		}
 	}
 }

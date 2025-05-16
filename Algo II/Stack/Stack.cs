@@ -9,8 +9,6 @@ namespace Algo_II.Stack
 {
 	public class Stack<T>
 	{
-		// Have Queue add to the end of the collection, while Stack adds to the beginning of the collection
-		// Stack and Queue returns the HeadNode
 		private SingleLinkedList<T> sll { get; set; }
 
 		public Stack()
@@ -45,30 +43,53 @@ namespace Algo_II.Stack
 		}
 
 		/// <summary>
-		/// Shows the next value o process in the stack without removing the value
+		/// Shows the top value in the stack without removing the value
 		/// </summary>
 		/// <returns></returns>
 		public T? Peek()
 		{
-			return sll.HeadNode.Data;
+			if (sll != null)
+			{
+				return sll.HeadNode.Data;
+			}
+			else
+			{
+				return default(T);
+			}
+			
 		}
 
 		/// <summary>
-		/// Returns and removes the next value in the stack
+		/// Returns and removes the top value in the stack
 		/// </summary>
 		/// <returns></returns>
 		public T? Pop()
 		{
-			return sll.Remove();
+			if (sll != null)
+			{
+				return sll.Remove();
+			}
+			else
+			{
+				return default(T);
+			}
+			
 		}
 
 		/// <summary>
-		/// Adds a value to the end of the queue
+		/// Adds a value to the top of the stack
 		/// </summary>
 		/// <param name="data"></param>
 		public void Push(T data)
 		{
-			sll.Insert(data, 0);
+			if (sll != null)
+			{
+				sll.Insert(data, 0);
+			}
+			else
+			{
+				sll = new SingleLinkedList<T>(data);
+			}
 		}
 	}
 }

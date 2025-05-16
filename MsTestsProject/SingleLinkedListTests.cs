@@ -53,6 +53,23 @@ namespace MsTestsProject
 		}
 
 		[TestMethod]
+		public void SingleLinkedList_InsertFirstElement()
+		{
+			int[] arr = { 1, 2, 3, 4 };
+			SingleLinkedList<int> input = new SingleLinkedList<int>(arr);
+
+			input.Insert(0, 0);
+
+			int[] expected = { 0, 1, 2, 3, 4 };
+			SingleLinkedList<int> expectedList = new SingleLinkedList<int>(expected);
+
+			for (int i = 0; i < expected.Length; i++)
+			{
+				Assert.AreEqual(input.Get(i), expectedList.Get(i));
+			}
+		}
+
+		[TestMethod]
 		[ExpectedException(typeof(IndexOutOfRangeException))]
 		public void SingleLinkedList_InsertOutsideCollection()
 		{

@@ -77,9 +77,18 @@ namespace Algo_II.SingleLinkedList
 					updateThis = updateThis.Next;
 				}
 				// Create new node with proper Next value
-				Node<T> newNode = new Node<T>(val, updateThis.Next);
-				// updateThis to point at the new node
-				updateThis.Next = newNode;
+				Node<T> newNode;
+				if (index == 0)
+				{
+					newNode = new Node<T>(val, updateThis);
+					HeadNode = newNode;
+				}
+				else
+				{
+					newNode = new Node<T>(val, updateThis.Next);
+					// updateThis to point at the new node
+					updateThis.Next = newNode;
+				}
 
 				Count++;
 			}

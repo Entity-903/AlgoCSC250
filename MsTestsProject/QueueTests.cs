@@ -91,16 +91,17 @@
 		[TestMethod]
 		public void Queue_DequeueHappyPath()
 		{
-			int[] arr = { 8, 2, 4, 7, 1 };
+			int[] arr = { 1, 2, 3, 4, 5 };
 			Queue<int> input = new Queue<int>(arr);
 
-			int expected = 8;
+			int expected = 1;
 			int actual = input.Dequeue();
 
-			int[] expectedArr = { 2, 4, 7, 1 };
-			Queue<int> expectedQueue = new Queue<int>(arr);
-
 			Assert.AreEqual(expected, actual);
+
+			int[] expectedArr = { 2, 3, 4, 5 };
+			Queue<int> expectedQueue = new Queue<int>(expectedArr);
+
 			for (int i = 0; i < arr.Length - 1; i++)
 			{
 				Assert.AreEqual(input.Get(i), expectedQueue.Get(i));
@@ -108,15 +109,59 @@
 		}
 
 		[TestMethod]
-		public void Queue_DequeueNullQueue()
+		public void Queue_DequeueNullQueueNumber()
 		{
 			Queue<int> input = new Queue<int>();
 
 			int expected = 0;
 			int actual = input.Dequeue();
-				
 
 			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void Queue_DequeueNullQueueObject()
+		{
+			Queue<string> input = new Queue<string>();
+
+			string actual = input.Dequeue();
+
+			Assert.IsNull(actual);
+		}
+
+		//----------------------------------------------------------------------------------------------------------------
+
+		[TestMethod]
+		public void Queue_EnqueueHappyPath()
+		{
+			int[] arr = { 1, 2, 3, 4, 5 };
+			Queue<int> input = new Queue<int>(arr);
+			
+			input.Enqueue(6);
+
+			int[] expectedArr = { 1, 2, 3, 4, 5, 6 };
+			Queue<int> expectedQueue = new Queue<int>(expectedArr);
+
+			for (int i = 0; i < arr.Length - 1; i++)
+			{
+				Assert.AreEqual(input.Get(i), expectedQueue.Get(i));
+			}
+		}
+
+		[TestMethod]
+		public void Queue_EnqueueNullCollection()
+		{
+			Queue<int> input = new Queue<int>();
+
+			input.Enqueue(1);
+
+			int[] expectedArr = { 1 };
+			Queue<int> expectedQueue = new Queue<int>(expectedArr);
+
+			for (int i = 0; i < expectedArr.Length - 1; i++)
+			{
+				Assert.AreEqual(input.Get(i), expectedQueue.Get(i));
+			}
 		}
 	}
 }
