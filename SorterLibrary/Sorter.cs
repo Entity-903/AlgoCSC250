@@ -776,7 +776,7 @@ namespace SorterLibrary
             {
                 return "n must be greater than 0!";
             }
-            if (n <= 3)
+            if (n > 1 && n <= 3)
             {
                 return "No solutions exist for n = " + n + "!";
             }
@@ -787,7 +787,6 @@ namespace SorterLibrary
 
             return result.ToString();
         }
-
 
         // Exists to return the number of solution for n
 		public static int nQueensSolutionCount(int n)
