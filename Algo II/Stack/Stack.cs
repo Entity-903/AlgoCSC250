@@ -24,9 +24,10 @@ namespace Algo_II.Stack
 
 		/// <summary>
 		/// Obtains data at the specified index
+		/// BigO(n)
 		/// </summary>
 		/// <param name="index"></param>
-		/// <returns></returns>
+		/// <returns> Data at the specified node </returns>
 		public T Get(int index)
 		{
 			return sll.Get(index);
@@ -34,9 +35,10 @@ namespace Algo_II.Stack
 
 		/// <summary>
 		/// Checks if a value is contained within the stack
+		/// BigO(n)
 		/// </summary>
 		/// <param name="val"></param>
-		/// <returns></returns>
+		/// <returns> True if value is found, else false </returns>
 		public bool Contains(T val)
 		{
 			return (sll.Search(val) != -1);
@@ -44,8 +46,9 @@ namespace Algo_II.Stack
 
 		/// <summary>
 		/// Shows the top value in the stack without removing the value
+		/// BigO(1)
 		/// </summary>
-		/// <returns></returns>
+		/// <returns> Top value in the stack </returns>
 		public T? Peek()
 		{
 			if (sll != null)
@@ -60,9 +63,10 @@ namespace Algo_II.Stack
 		}
 
 		/// <summary>
-		/// Returns and removes the top value in the stack
+		/// Removes the top value in the stack
+		/// BigO(1)
 		/// </summary>
-		/// <returns></returns>
+		/// <returns> Top value in the stack </returns>
 		public T? Pop()
 		{
 			if (sll != null)
@@ -78,8 +82,9 @@ namespace Algo_II.Stack
 
 		/// <summary>
 		/// Adds a value to the top of the stack
+		/// BigO(1)
 		/// </summary>
-		/// <param name="data"></param>
+		/// <param name="data"> Data to add to the stack </param>
 		public void Push(T data)
 		{
 			if (sll != null)

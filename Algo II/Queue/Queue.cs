@@ -33,9 +33,10 @@ namespace Algo_II.Queue
 
 		/// <summary>
 		/// Obtains data at the specified index
+		/// BigO(n)
 		/// </summary>
 		/// <param name="index"></param>
-		/// <returns></returns>
+		/// <returns> Data at the specified node </returns>
 		public T Get(int index)
 		{
 			return sll.Get(index);
@@ -43,9 +44,10 @@ namespace Algo_II.Queue
 
 		/// <summary>
 		/// Checks if a value is contained within the queue
+		/// BigO(n)
 		/// </summary>
 		/// <param name="val"></param>
-		/// <returns></returns>
+		/// <returns> True if value is found, else false </returns>
 		public bool Contains(T val)
 		{
 			return (sll.Search(val) != -1);
@@ -53,10 +55,11 @@ namespace Algo_II.Queue
 
 		/// <summary>
 		/// Shows the next value to process in the queue without removing the value
+		/// BigO(1)
 		/// </summary>
-		/// <returns></returns>
+		/// <returns> Next value in the queue </returns>
 		public T? Peek()
-		{
+		{ 
 			if (sll != null)
 			{
 				return sll.HeadNode.Data;
@@ -68,9 +71,10 @@ namespace Algo_II.Queue
 		}
 
 		/// <summary>
-		/// Returns and removes the next value in the queue
+		/// Removes the next value in the queue
+		/// BigO(1)
 		/// </summary>
-		/// <returns></returns>
+		/// <returns> Next value in the queue </returns>
 		public T? Dequeue()
 		{
 			if(sll != null)
@@ -85,8 +89,9 @@ namespace Algo_II.Queue
 
 		/// <summary>
 		/// Adds a value to the end of the queue
+		/// BigO(n)
 		/// </summary>
-		/// <param name="data"></param>
+		/// <param name="data"> Data to add to the queue </param>
 		public void Enqueue(T data)
 		{
 			if (sll != null)
