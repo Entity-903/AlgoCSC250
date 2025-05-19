@@ -77,7 +77,6 @@ namespace Algo_II.Stack
 			{
 				return default(T);
 			}
-			
 		}
 
 		/// <summary>
