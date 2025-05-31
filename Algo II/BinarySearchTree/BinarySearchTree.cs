@@ -167,6 +167,8 @@ namespace Algo_II.BinarySearchTree
 			{
 					// remove() logic
 
+				// ensure logic is impleneted when two children are present
+
 				// check for left child
 				// if present, current node now points to left child
 				// otherwise check for right child
@@ -174,34 +176,54 @@ namespace Algo_II.BinarySearchTree
 				// otherwise current node points to null
 				if (currentNode.LeftChild != null && value.CompareTo(currentNode.LeftChild.Data) == 0)
 				{
-					if (currentNode.LeftChild.LeftChild != null)
+					bool hasLeftChild  = (currentNode.LeftChild.LeftChild != null);
+					bool hasRightChild = (currentNode.LeftChild.RightChild != null);
+
+					if (!hasLeftChild && !hasRightChild)
+					{
+						currentNode.LeftChild = null;
+					}
+					else if (hasLeftChild && hasRightChild)
+					{
+						// Have left child of to-be-removed node point to to-be-removed node's right child
+						currentNode.LeftChild.LeftChild.RightChild = currentNode.LeftChild.RightChild;
+						// Have currentNode point to to-be-removed node's LeftChild
+						currentNode.LeftChild = currentNode.LeftChild.LeftChild;
+					}
+					else if (hasLeftChild)
 					{
 						currentNode.LeftChild = currentNode.LeftChild.LeftChild;
 					}
-					else if (currentNode.LeftChild.RightChild != null)
+					else // hasRightChild
 					{
 						currentNode.LeftChild = currentNode.LeftChild.RightChild;
-					}
-					else
-					{
-						currentNode.LeftChild = null;
 					}
 
 					return;
 				}
 				else if (currentNode.RightChild != null && value.CompareTo(currentNode.RightChild.Data) == 0)
 				{
-					if (currentNode.RightChild.LeftChild != null)
+					bool hasLeftChild = (currentNode.RightChild.LeftChild != null);
+					bool hasRightChild = (currentNode.RightChild.RightChild != null);
+
+					if (!hasLeftChild && !hasRightChild)
+					{
+						currentNode.RightChild = null;
+					}
+					else if (hasLeftChild && hasRightChild)
+					{
+						// Have left child of to-be-removed node point to to-be-removed node's right child
+						currentNode.RightChild.LeftChild.RightChild = currentNode.RightChild.RightChild;
+						// Have currentNode point to to-be-removed node's LeftChild
+						currentNode.RightChild = currentNode.RightChild.LeftChild;
+					}
+					else if (hasLeftChild)
 					{
 						currentNode.RightChild = currentNode.RightChild.LeftChild;
 					}
-					else if (currentNode.RightChild.RightChild != null)
+					else // hasRightChild
 					{
 						currentNode.RightChild = currentNode.RightChild.RightChild;
-					}
-					else
-					{
-						currentNode.RightChild = null;
 					}
 
 					return;
@@ -369,9 +391,55 @@ namespace Algo_II.BinarySearchTree
 		{
 			// Start at the root node, referred to as 'currentNode'
 			// Save the data in currentNode to the stringbuilder, 'result'
-			// 
+			// While currentNode has children, preform this backtracking recursive logic
+			// {
+			// If there is a left child node, currentNode = left child node
+			// Save data in currentNode to result
+			// repeat while logic (check for children)
 
-			return "";
+			// If there is a right child node, if so, currentNode = right child node
+			// Save data in currentNode to result
+			// repeat while logic (check for children)
+			// }
+
+			if (RootNode == null)
+			{
+				return "";
+			}
+
+			Node<T> currentNode = RootNode;
+			StringBuilder result = new StringBuilder();
+
+			PreOrder_CheckChildren(currentNode, ref result);
+
+			// Removes the extra ', ' at the end of the StringBuilder
+			result.Length -= 2;
+
+			return result.ToString();
+		}
+
+		public void PreOrder_CheckChildren(Node<T> currentNode, ref StringBuilder result)
+		{
+			result.Append(currentNode.Data + ", ");
+
+			PreOrder_CheckLeftChild(currentNode, ref result);
+			PreOrder_CheckRightChild(currentNode, ref result);
+		}
+
+		public void PreOrder_CheckLeftChild(Node<T> currentNode, ref StringBuilder result)
+		{
+			if (currentNode.LeftChild != null)
+			{
+				PreOrder_CheckChildren(currentNode.LeftChild, ref result);
+			}
+		}
+
+		public void PreOrder_CheckRightChild(Node<T> currentNode, ref StringBuilder result)
+		{
+			if (currentNode.RightChild != null)
+			{
+				PreOrder_CheckChildren(currentNode.RightChild, ref result);
+			}
 		}
 
 		/// <summary>
@@ -381,9 +449,44 @@ namespace Algo_II.BinarySearchTree
 		/// <returns></returns>
 		public string PostOrder()
 		{
-			return "";
+			if (RootNode == null)
+			{
+				return "";
+			}
+
+			Node<T> currentNode = RootNode;
+			StringBuilder result = new StringBuilder();
+
+			PostOrder_CheckChildren(currentNode, ref result);
+
+			// Removes the extra ', ' at the end of the StringBuilder
+			result.Length -= 2;
+
+			return result.ToString();
 		}
 
+		public void PostOrder_CheckChildren(Node<T> currentNode, ref StringBuilder result)
+		{
+			PostOrder_CheckLeftChild(currentNode, ref result);
+			PostOrder_CheckRightChild(currentNode, ref result);
 
+			result.Append(currentNode.Data + ", ");
+		}
+
+		public void PostOrder_CheckLeftChild(Node<T> currentNode, ref StringBuilder result)
+		{
+			if (currentNode.LeftChild != null)
+			{
+				PostOrder_CheckChildren(currentNode.LeftChild, ref result);
+			}
+		}
+
+		public void PostOrder_CheckRightChild(Node<T> currentNode, ref StringBuilder result)
+		{
+			if (currentNode.RightChild != null)
+			{
+				PostOrder_CheckChildren(currentNode.RightChild, ref result);
+			}
+		}
 	}
 }

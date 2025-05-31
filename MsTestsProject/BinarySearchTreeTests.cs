@@ -13,7 +13,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BinarySearchTree_AddValueHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			Assert.AreEqual(tree.Count, 7);
@@ -30,7 +30,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BinarySearchTree_AddDuplicateValue()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			tree.AddValue(2);
@@ -44,7 +44,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BinarySearchTree_ClearHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			tree.Clear();
@@ -69,7 +69,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BinarySearchTree_ContainsHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			bool expected = true;
@@ -81,7 +81,7 @@ namespace MsTestsProject
 		[TestMethod]
 		public void BinarySearchTree_ContainsNot()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			bool expected = false;
@@ -92,27 +92,40 @@ namespace MsTestsProject
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-		//[TestMethod]
-		//public void BinarySearchTree_RemoveHappyPath()
-		//{
-		//	int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
-		//	BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
-		//	
-		//	tree.Remove(5);
-		//
-		//	int[] expectedArr = { 3, 1, 2, 0, 4, 6 };
-		//	BinarySearchTree<int> expectedTree = new BinarySearchTree<int>(expectedArr);
-		//
-		//
-		//	//Assert.AreEqual(expected, actual);
-		//}
+		[TestMethod]
+		public void BinarySearchTree_RemoveHappyPath()
+		{
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
+			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
+			
+			tree.Remove(5);
+		
+			string expected = "3, 1, 0, 2, 4, 6";
+			string actual = tree.PreOrder();
+		
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void BinarySearchTree_RemoveValueNotPresent()
+		{
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
+			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
+
+			tree.Remove(10);
+
+			string expected = "3, 1, 0, 2, 5, 4, 6";
+			string actual = tree.PreOrder();
+
+			Assert.AreEqual(expected, actual);
+		}
 
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		[TestMethod]
-		public void BinarySearchtree_HeightHappyPath()
+		public void BinarySearchTree_HeightHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			int expected = 3;
@@ -122,7 +135,7 @@ namespace MsTestsProject
 		}
 
 		[TestMethod]
-		public void BinarySearchtree_HeightEmptyTree()
+		public void BinarySearchTree_HeightEmptyTree()
 		{
 			BinarySearchTree<int> tree = new BinarySearchTree<int>();
 
@@ -135,9 +148,9 @@ namespace MsTestsProject
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		[TestMethod]
-		public void BinarySearchtree_ToArrayHappyPath()
+		public void BinarySearchTree_ToArrayHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
 			int[] expectedArr = { 0, 1, 2, 3, 4, 5, 6 };
@@ -150,7 +163,7 @@ namespace MsTestsProject
 		}
 
 		[TestMethod]
-		public void BinarySearchtree_ToArrayEmptyTree()
+		public void BinarySearchTree_ToArrayEmptyTree()
 		{
 			BinarySearchTree<int> tree = new BinarySearchTree<int>();
 
@@ -166,18 +179,76 @@ namespace MsTestsProject
 		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 		[TestMethod]
-		public void BinarySearchtree_ToArrayHappyPath()
+		public void BinarySearchTree_InOrderHappyPath()
 		{
-			int[] arr = { 3, 1, 2, 0, 5, 4, 6 };
+			int[] arr = { 5, 3, 1, 2, 0, 4, 8, 6, 7 };
+			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
+		
+			string expected = "0, 1, 2, 3, 4, 5, 6, 7, 8";
+			string actual = tree.InOrder();
+		
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void BinarySearchTree_InOrderEmptyTree()
+		{
+			BinarySearchTree<int> tree = new BinarySearchTree<int>();
+
+			string expected = "";
+			string actual = tree.InOrder();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		[TestMethod]
+		public void BinarySearchTree_PreOrderHappyPath()
+		{
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
 			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
 
-			int[] expectedArr = { 0, 1, 2, 3, 4, 5, 6 };
-			int[] actualArr = tree.ToArray();
+			string expected = "3, 1, 0, 2, 5, 4, 6";
+			string actual = tree.PreOrder();
 
-			for (int i = 0; i < arr.Length; i++)
-			{
-				Assert.AreEqual(actualArr[i], expectedArr[i]);
-			}
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void BinarySearchTree_PreOrderEmptyTree()
+		{
+			BinarySearchTree<int> tree = new BinarySearchTree<int>();
+
+			string expected = "";
+			string actual = tree.PreOrder();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		//----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+		[TestMethod]
+		public void BinarySearchTree_PostOrderHappyPath()
+		{
+			int[] arr = { 3, 1, 0, 2, 5, 4, 6 };
+			BinarySearchTree<int> tree = new BinarySearchTree<int>(arr);
+
+			string expected = "0, 2, 1, 4, 6, 5, 3";
+			string actual = tree.PostOrder();
+
+			Assert.AreEqual(expected, actual);
+		}
+
+		[TestMethod]
+		public void BinarySearchTree_PostOrderEmptyTree()
+		{
+			BinarySearchTree<int> tree = new BinarySearchTree<int>();
+
+			string expected = "";
+			string actual = tree.PostOrder();
+
+			Assert.AreEqual(expected, actual);
 		}
 	}
 }
